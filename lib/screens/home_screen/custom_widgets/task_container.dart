@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:taskati/core/utils/app_colors.dart';
 import 'package:taskati/core/utils/app_strings.dart';
 import 'package:taskati/core/utils/app_text_style.dart';
+import 'package:taskati/core/utils/task_manager.dart';
 import 'package:taskati/core/widgets/app_hieght_box.dart';
 import 'package:taskati/core/widgets/app_width_box.dart';
 
 class TaskContainer extends StatelessWidget {
-  const TaskContainer({super.key});
+  TaskContainer({super.key, required this.index});
+  final TaskManager manager = TaskManager.manager;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class TaskContainer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Flutter task-1",
+                  Text(manager.tasks[index].title,
                       style: TextStyle(
                           color: AppColors.textWhiteColor,
                           fontWeight: FontWeight.bold)),
@@ -37,7 +40,7 @@ class TaskContainer extends StatelessWidget {
                       ),
                       AppWidthBox(10),
                       Text(
-                        "02:25 AM - 02:55 AM",
+                        "${manager.tasks[index].startDate} - ${manager.tasks[index].endDate}",
                         style:
                             AppTextStyle.normal10.copyWith(color: Colors.white),
                       ),
@@ -45,7 +48,7 @@ class TaskContainer extends StatelessWidget {
                   ),
                   AppHieghtBox(10),
                   Text(
-                    AppStrings.doTask,
+                    manager.tasks[index].desscription,
                     style: AppTextStyle.normal15.copyWith(color: Colors.white),
                   )
                 ],

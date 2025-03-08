@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskati/core/helper/nav_helper.dart';
 import 'package:taskati/core/widgets/app_bottons.dart';
 import 'package:taskati/screens/add_task_screen/add_task_screen.dart';
 
@@ -16,10 +17,15 @@ class SeconRowInHome extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>AddTaskScreen()));
-          },
-          child: AppBottons(title: "+ Add Task"))
+            onTap: () {
+              
+              NavHelper.goTo(context, AddTaskScreen());
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (BuildContext context) => AddTaskScreen()));
+            },
+            child: AppBottons(title: "+ Add Task"))
       ],
     );
   }

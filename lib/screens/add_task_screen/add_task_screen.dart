@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taskati/core/utils/app_colors.dart';
 import 'package:taskati/core/utils/app_text_style.dart';
+import 'package:taskati/core/utils/task_manager.dart';
+import 'package:taskati/core/utils/task_model.dart';
 import 'package:taskati/core/widgets/app_bottons.dart';
 import 'package:taskati/core/widgets/app_hieght_box.dart';
 import 'package:taskati/core/widgets/app_width_box.dart';
@@ -16,8 +18,27 @@ import 'package:taskati/screens/add_task_screen/custom_widgets/title_field.dart'
 import 'package:taskati/screens/add_task_screen/custom_widgets/title_text.dart';
 import 'package:taskati/screens/add_task_screen/custom_widgets/end_time_text.dart';
 
-class AddTaskScreen extends StatelessWidget {
+class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
+
+  @override
+  State<AddTaskScreen> createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
+  final GlobalKey<FormState> formkey = GlobalKey();
+  final TextEditingController controller1 = TextEditingController();
+  final TextEditingController controller2 = TextEditingController();
+  final TextEditingController startTimecontroller = TextEditingController();
+  final TextEditingController endtimeController = TextEditingController();
+  final TaskManager manager = TaskManager.manager;
+
+  // @override
+  // void dispose() {
+  //   controller1.dispose();
+  //   controller2.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -33,61 +54,86 @@ class AddTaskScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        child: ListView(
-          children: [
-            TitleText(),
-            AppHieghtBox(20),
-            TitleField(),
-            AppHieghtBox(20),
-            NoteText(),
-            AppHieghtBox(20),
-            NoteField(),
-            AppHieghtBox(20),
-            DateText(),
-            AppHieghtBox(20),
-            DateField(),
-            AppHieghtBox(20),
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      StartTimeText(),
-                      AppHieghtBox(20),
-                      StartTimeField()
-                    ],
+        child: Form(
+          key: formkey,
+          child: ListView(
+            children: [
+              TitleText(),
+              AppHieghtBox(20),
+              TitleField(
+                controller: controller1,
+              ),
+              AppHieghtBox(20),
+              NoteText(),
+              AppHieghtBox(20),
+              NoteField(
+                controller: controller2,
+              ),
+              AppHieghtBox(20),
+              DateText(),
+              AppHieghtBox(20),
+              DateField(),
+              AppHieghtBox(20),
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        StartTimeText(),
+                        AppHieghtBox(20),
+                        StartTimeField(
+                          controller: startTimecontroller,
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                AppWidthBox(20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [EndTimeText(), AppHieghtBox(20), EndTimeField()],
+                  AppWidthBox(20),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        EndTimeText(),
+                        AppHieghtBox(20),
+                        EndTimeField(controller: endtimeController,)
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              AppHieghtBox(20),
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Color",
+                          style: AppTextStyle.bold20,
+                        ),
+                        AppHieghtBox(10),
+                        ColoredCircles()
+                      ],
+                    ),
                   ),
-                )
-              ],
-            ),
-            AppHieghtBox(20),
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Color",
-                        style: AppTextStyle.bold20,
-                      ),
-                      AppHieghtBox(10),
-                      ColoredCircles()
-                    ],
-                  ),
-                ),
-                AppBottons(title: "Create Task")
-              ],
-            )
-          ],
+                  InkWell(
+                      onTap: () {
+                        if (formkey.currentState!.validate()) {
+                          manager.addTask(TaskModel(
+                              title: controller1.text,
+                              isCompleted: true,
+                              desscription: controller2.text,
+                              startDate: startTimecontroller.text,
+                              endDate: endtimeController.text));
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: AppBottons(title: "Create Task"))
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

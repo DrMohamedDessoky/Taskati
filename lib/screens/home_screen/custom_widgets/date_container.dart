@@ -10,9 +10,11 @@ class DateContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Container(
+        
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10), color: themeColor()),

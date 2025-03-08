@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:taskati/core/utils/app_colors.dart';
 import 'package:taskati/core/utils/app_text_style.dart';
 import 'package:taskati/core/widgets/app_hieght_box.dart';
@@ -31,9 +32,37 @@ class EditProfileScreen extends StatelessWidget {
                 Positioned(
                     bottom: 5,
                     right: 4,
-                    child: Icon(
-                      Icons.camera_alt,
-                      color: AppColors.bottonColor,
+                    child: InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) => Wrap(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Center(
+                                          child: ListTile(
+                                            onTap: () {
+                                              ImagePicker().pickImage(
+                                                  source: ImageSource.camera);
+                                            },
+                                            leading: Icon(Icons.camera_alt),
+                                            title: Text("Pick from Camera"),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          leading: Icon(Icons.image),
+                                          title: Text("Upload from Gallery"),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ));
+                      },
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: AppColors.bottonColor,
+                      ),
                     ))
               ],
             ),

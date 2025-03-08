@@ -6,7 +6,9 @@ class NoteText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Note",
-              style: AppTextStyle.bold25,);
+    return Text(
+      "Note",
+      style: AppTextStyle.bold25,
+    );
   }
 }
