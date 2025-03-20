@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             AppHieghtBox(19),
-            NotificationListener(child: HomeList())
+            NotificationListener(child: HomeList()),
           ],
         ),
       ),

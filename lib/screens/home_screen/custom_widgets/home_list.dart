@@ -14,20 +14,24 @@ class HomeList extends StatelessWidget {
         listenable: TaskManager.manager,
         builder: (context, child) => Expanded(
               child: ListView.builder(
-                  itemBuilder: (BuildContext context, index) => Dismissible(
-                      key: UniqueKey(),
-                      background: BackgroundContainerComplt(),
-                      onDismissed: (direction) {
-                        if (direction == DismissDirection.endToStart) {
-                          manager.deleteTask(index);
-                        } if(direction==DismissDirection.startToEnd) {
-                          manager.completedTask(index);
-                        }
-                      },
-                      secondaryBackground: BackgroundContainerDlt(),
-                      child: TaskContainer(
-                        index: index,
-                      )),
+                  itemBuilder: (BuildContext context, index) {
+                    final int reversedIndex = manager.tasks.length - 1 - index;
+                    return Dismissible(
+                        key: UniqueKey(),
+                        background: BackgroundContainerComplt(),
+                        onDismissed: (direction) {
+                          if (direction == DismissDirection.endToStart) {
+                            manager.deleteTask(reversedIndex);
+                          }
+                          if (direction == DismissDirection.startToEnd) {
+                            manager.completedTask(reversedIndex);
+                          }
+                        },
+                        secondaryBackground: BackgroundContainerDlt(),
+                        child: TaskContainer(
+                          index: reversedIndex,
+                        ));
+                  },
                   itemCount: manager.tasks.length),
             ));
   }
