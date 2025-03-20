@@ -6,7 +6,6 @@ import 'package:taskati/core/utils/task_model.dart';
 import 'package:taskati/core/widgets/app_bottons.dart';
 import 'package:taskati/core/widgets/app_hieght_box.dart';
 import 'package:taskati/core/widgets/app_width_box.dart';
-import 'package:taskati/screens/add_task_screen/custom_widgets/colored_circles.dart';
 import 'package:taskati/screens/add_task_screen/custom_widgets/date_field.dart';
 import 'package:taskati/screens/add_task_screen/custom_widgets/date_text.dart';
 import 'package:taskati/screens/add_task_screen/custom_widgets/end_time_field.dart';
@@ -32,6 +31,18 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   final TextEditingController startTimecontroller = TextEditingController();
   final TextEditingController endtimeController = TextEditingController();
   final TaskManager manager = TaskManager.manager;
+  bool isRed = false;
+  bool isGreen = true;
+  bool isOrange = false;
+  int chosenColor() {
+    if (isRed) {
+      return Colors.red.toARGB32();
+    } else if (isGreen) {
+      return Colors.green.toARGB32();
+    } else {
+      return Colors.orange.toARGB32();
+    }
+  }
 
   // @override
   // void dispose() {
@@ -95,7 +106,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       children: [
                         EndTimeText(),
                         AppHieghtBox(20),
-                        EndTimeField(controller: endtimeController,)
+                        EndTimeField(
+                          controller: endtimeController,
+                        )
                       ],
                     ),
                   )
@@ -113,7 +126,80 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           style: AppTextStyle.bold20,
                         ),
                         AppHieghtBox(10),
-                        ColoredCircles()
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isRed = true;
+                                  isOrange = false;
+                                  isGreen = false;
+                                });
+                              },
+                              child: Container(
+                                  width: 25,
+                                  height: 25,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.red),
+                                  child: isRed
+                                      ? Icon(
+                                          Icons.done,
+                                          color: Colors.white,
+                                          size: 20,
+                                        )
+                                      : SizedBox.shrink()),
+                            ),
+                            AppWidthBox(10),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isRed = false;
+                                  isOrange = false;
+                                  isGreen = true;
+                                });
+                              },
+                              child: Container(
+                                width: 25,
+                                height: 25,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.green),
+                                child: isGreen
+                                    ? Icon(
+                                        Icons.done,
+                                        color: Colors.white,
+                                        size: 20,
+                                      )
+                                    : SizedBox.shrink(),
+                              ),
+                            ),
+                            AppWidthBox(10),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isRed = false;
+                                  isOrange = true;
+                                  isGreen = false;
+                                });
+                              },
+                              child: Container(
+                                width: 25,
+                                height: 25,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.orange),
+                                child: isOrange
+                                    ? Icon(
+                                        Icons.done,
+                                        color: Colors.white,
+                                        size: 20,
+                                      )
+                                    : SizedBox.shrink(),
+                              ),
+                            )
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -121,11 +207,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       onTap: () {
                         if (formkey.currentState!.validate()) {
                           manager.addTask(TaskModel(
+                              containerColorValue: chosenColor(),
                               title: controller1.text,
-                              isCompleted: true,
                               desscription: controller2.text,
                               startDate: startTimecontroller.text,
                               endDate: endtimeController.text));
+                          manager.loadData();
                           Navigator.pop(context);
                         }
                       },

@@ -1,0 +1,2 @@
+D:/dart/seconscreen/taskati/android/app/.cxx/Debug/20u1s4z4/x86_64/CMakeFiles/edit_cache.dir
+D:/dart/seconscreen/taskati/android/app/.cxx/Debug/20u1s4z4/x86_64/CMakeFiles/rebuild_cache.dir

@@ -75,12 +75,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         });
                       },
                       child: DateContainer(isActive: isActive4)),
-                
                 ],
               ),
             ),
             AppHieghtBox(19),
-            HomeList()
+            NotificationListener(child: HomeList())
           ],
         ),
       ),

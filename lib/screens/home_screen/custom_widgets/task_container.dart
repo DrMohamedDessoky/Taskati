@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:taskati/core/utils/app_colors.dart';
-import 'package:taskati/core/utils/app_strings.dart';
 import 'package:taskati/core/utils/app_text_style.dart';
 import 'package:taskati/core/utils/task_manager.dart';
 import 'package:taskati/core/widgets/app_hieght_box.dart';
@@ -18,7 +17,7 @@ class TaskContainer extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(
-            color: AppColors.bottonColor,
+            color:Color(manager.tasks[index].containerColorValue),
             borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [
@@ -62,10 +61,21 @@ class TaskContainer extends StatelessWidget {
             AppWidthBox(8),
             RotatedBox(
                 quarterTurns: 3,
-                child: Text(
-                  "TODO",
-                  style: TextStyle(color: Colors.white, fontSize: 11),
-                ))
+                child: manager.tasks[index].isCompleted
+                    ? Text(
+                        "completed",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      )
+                    : Text(
+                        "ToDo",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold),
+                      ))
           ],
         ),
       ),
